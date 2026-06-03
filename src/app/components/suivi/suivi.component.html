@@ -1,0 +1,41 @@
+<div class="container mt-4">
+
+    <h3 class="mb-3">📍 Suivi des Dermos</h3>
+
+    <!-- 🔍 Filtre -->
+    <input type="text"
+           class="form-control mb-3"
+           placeholder="Rechercher par nom ou username..."
+           [(ngModel)]="searchText"
+           (input)="filterDermos()">
+
+    <!-- 📊 Tableau -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover custom-table">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nom</th>
+                    <th>Username</th>
+                    <th>Localisation Check-In</th>
+                    <th>Localisation Check-Out</th>
+                    <th>Check-In</th>
+                    <th>Check-Out</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let d of filteredDermos">
+                    <td>{{ d.intitule }}</td>
+                    <td>{{ d.username }}</td>
+
+                    <td>{{ d.localisationCheckIn || 'Non renseignée' }}</td>
+                    <td>{{ d.localisationCheckOut || 'Non renseignée' }}</td>
+
+                    <td>{{ d.dateCheckIn | date:'dd/MM/yyyy HH:mm' }}</td>
+                    <td>{{ d.dateCheckOut | date:'dd/MM/yyyy HH:mm' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

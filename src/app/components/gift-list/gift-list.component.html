@@ -1,0 +1,65 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="card">
+        <h5 class="card-header">🎁 Espace Commandes Gifts</h5>
+
+        <!-- 🔍 Barre de Recherche et Filtres -->
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-lg-4">
+                    <input type="text" (keyup)="filterSearch()" [(ngModel)]="searchText" class="form-control"
+                        placeholder="🔍 Recherche...">
+                </div>
+                <div class="col-lg-4">
+                    <select class="form-select" [(ngModel)]="selectedDermo" (change)="filterByDermo()">
+                        <option value="">🧑‍⚕️ Filtrer par Dermo</option>
+                        <option *ngFor="let dermo of dermos" [value]="dermo.id">{{dermo.username}}</option>
+                    </select>
+                </div>
+     
+                <div class="col-lg-4">
+                    <button class="btn btn-secondary" (click)="resetFilters()">🔄 Réinitialiser</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🔄 Loader -->
+        <div *ngIf="loading" class="text-center p-3">
+            <span class="spinner-border text-primary"></span>
+            <p>Chargement des commandes...</p>
+        </div>
+
+        <!-- ❌ Message d'erreur -->
+        <div *ngIf="errorMessage" class="alert alert-danger text-center">
+            {{ errorMessage }}
+        </div>
+
+        <!-- 📋 Tableau des Commandes Gifts -->
+        <div class="card-datatable table-responsive">
+            <table class="table border-top dataTable">
+                <thead>
+                    <tr>
+                        <th>📸 Image</th>
+                        <th>🎁 Gift</th>
+                        <th>🏷️ Marque</th>
+                        <th>📦 Quantité</th>
+                        <th>🧑‍⚕️ Dermo</th>
+                        <th>🏥 Pharmacie</th>
+                        <th>📅 Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let order of filteredGiftOrders">
+                        <td><img [src]="'https://novopharma.tn/api/MbArticle/image/' + order.giftRef" alt="Gift Image"
+                                width="50"></td>
+                        <td>{{ order.giftName }}</td>
+                        <td>{{ order.marque }}</td>
+                        <td><span class="badge bg-primary">{{ order.quantiteCommande }}</span></td>
+                        <td>{{ order.dermoName }}</td>
+                        <td>{{ order.nomPharmacie }}</td>
+                        <td>{{ order.dateCommande | date:'dd/MM/yyyy HH:mm' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

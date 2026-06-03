@@ -1,0 +1,84 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="col-lg-12 mb-4 order-0">
+            <div class="card">
+                <h5 class="card-header">Espace Articles</h5>
+
+                <!-- Formulaire de recherche -->
+                <div class="card-body">
+                    <form class="dt_adv_search">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <input type="text" [(ngModel)]="searchTextrr" (ngModelChange)="filterArticles()" class="form-control"
+                                placeholder="Rechercher un Article...">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <hr class="mt-0">
+
+                <!-- Loader si en cours de chargement -->
+                <div *ngIf="loading" class="text-center p-3">
+                    <span class="spinner-border spinner-border-lg text-primary"></span>
+                    <p>Chargement des articles...</p>
+                </div>
+
+                <!-- Message d'erreur -->
+                <div *ngIf="errorMessage" class="alert alert-danger text-center">
+                    {{ errorMessage }}
+                </div>
+
+                <!-- Tableau des articles -->
+                <div class="card-datatable table-responsive">
+                    <table class="table border-top dataTable">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Article</th>
+                                <th>Marque</th>
+                                <th>Famille</th>
+                                <th>Recommandé</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let article of filteredArticles ">
+                                <td>#{{article.arRef}}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img [src]="'https://novopharma.tn/api/MbArticle/image/' + article.arRef"
+                                            class="rounded-circle me-2" width="40" height="40">
+                                        <span>{{article.arDesign}}</span>
+                                    </div>
+                                </td>
+                                <td>{{article.marque}}</td>
+                                <td>{{article.famille}}</td>
+                                <td>
+                                    <span class="badge" 
+                                          [ngClass]="{ 
+                                                      'bg-success': article.recommande === 'Oui'}">
+                                        {{ article.recommande }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="btn" 
+                                            [ngClass]="{'btn-info': article.recommande !== 'Oui', 
+                                                        'btn-warning': article.recommande === 'Oui'}"
+                                            (click)="RecommanderArticle(article)">
+                                        <i class="bx" 
+                                           [ngClass]="{'bx-check-square': article.recommande !== 'Oui', 
+                                                       'bx-x-square': article.recommande === 'Oui'}">
+                                        </i>
+                                        {{ article.recommande === 'Oui' ? 'Ne plus recommander' : 'Recommander' }}
+                                    </button>
+                                </td>
+                                
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

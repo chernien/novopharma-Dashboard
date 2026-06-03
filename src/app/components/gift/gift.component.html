@@ -1,0 +1,102 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="card">
+        <h5 class="card-header">🎁 Espace Gifts</h5>
+
+        <!-- 🔍 Formulaire de Recherche -->
+        <div class="card-body">
+            <input type="text" [(ngModel)]="searchText" (keyup)="filterArticles()" class="form-control"
+                placeholder="Rechercher un gift...">
+        </div>
+
+        <!-- 🔄 Loader si en cours de chargement -->
+        <div *ngIf="loading" class="text-center p-3">
+            <span class="spinner-border text-primary"></span>
+            <p>Chargement des articles...</p>
+        </div>
+
+        <!-- ❌ Message d'erreur -->
+        <div *ngIf="errorMessage" class="alert alert-danger text-center">
+            {{ errorMessage }}
+        </div>
+
+        <!-- 📋 Tableau des articles -->
+        <div class="card-datatable table-responsive">
+            <table class="table border-top dataTable">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Article</th>
+                        <th>Marque</th>
+                        <th>Famille</th>
+                        <th>Source</th>
+
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let article of filteredArticles">
+                        <td>#{{article.arRef}}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img 
+                                    [src]="'https://novopharma.tn/api/MbArticle/image/' + article.arRef"
+                                    class="rounded-circle me-2" width="40" height="40">
+                             
+
+                                <span>{{article.arDesign}}</span>
+                            </div>
+                        </td>
+                        <td>{{article.marque}}</td>
+                        <td>{{article.famille}}</td>
+                        <td>{{article.source}}</td>
+
+                        <td>
+                            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#assignGiftModal"
+                                (click)="openAssignModal(article)">
+                                <i class="bx bx-user-plus"></i> Assigner
+                            </button>
+                            
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<!-- ✅ Modale d'Assignation -->
+<div class="modal fade" id="assignGiftModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assigner Gift</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <label>🎁 Gift :</label>
+                <input type="text" class="form-control" [value]="selectedGift?.arDesign" disabled>
+
+                <label>🧑‍⚕️ Choisir un Dermo :</label>
+                <select [(ngModel)]="selectedDermo" class="form-control">
+                    <option *ngFor="let dermo of dermos" [value]="dermo.id">{{dermo.username}}</option>
+                </select>
+
+                <label>📦 Quantité :</label>
+                <input type="number" [(ngModel)]="selectedQuantity" class="form-control" min="1">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" *ngIf="selectedGift?.source=='Medsource'" [disabled]="assigning" (click)="assignGift()">
+                    <i *ngIf="!assigning" class="bx bx-check-circle"></i>
+                    <span *ngIf="assigning" class="spinner-border spinner-border-sm"></span>
+                    Confirmer
+                </button>
+                <button *ngIf="selectedGift?.source=='Novopharma'" class="btn btn-primary" [disabled]="assigning" (click)="assignGift()">
+                    <i *ngIf="!assigning" class="bx bx-check-circle"></i>
+                    <span *ngIf="assigning " class="spinner-border spinner-border-sm"></span>
+                    Confirmer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

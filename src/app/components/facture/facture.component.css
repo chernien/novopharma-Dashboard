@@ -1,0 +1,10 @@
+/* ✅ Amélioration du style des dates */
+.table td {
+    vertical-align: middle; /* ✅ Centre le texte verticalement */
+    font-size: 14px; /* ✅ Taille de police plus propre */
+}
+
+/* ✅ Ajout d'une couleur pour différencier les dates */
+.date-cell {
+    font-weight: bold;
+}

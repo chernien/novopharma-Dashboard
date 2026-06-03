@@ -1,0 +1,81 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="col-lg-12 mb-4 order-0">
+            <div class="card">
+                <h5 class="card-header">📑 Espace Factures</h5>
+
+                <!-- ✅ Zone de Filtres -->
+                <div class="card-body">
+                    <div class="row g-3">
+                      
+                        <div class="col-lg-4">
+                            <label class="form-label">🏥 Par Pharmacie</label>
+                            <input type="text" [(ngModel)]="selectedPharmacie" (keyup)="filterFactures()"
+                                class="form-control" placeholder="Nom de la pharmacie">
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="form-label">🧑‍⚕️ Par Dermo</label>
+                            <input type="text" [(ngModel)]="selectedDermo" (keyup)="filterFactures()"
+                                class="form-control" placeholder="Nom du dermo">
+                        </div>
+                        <div class="col-lg-4">
+                            <label class="form-label">📅 Par Date</label>
+                            <input type="date" [(ngModel)]="selectedDate" (change)="filterFactures()"
+                                class="form-control">
+                        </div>
+                        <div class="col-lg-4 d-flex align-items-end">
+                            <button class="btn btn-warning" (click)="resetFilters()">
+                                <i class='bx bx-reset'></i> Réinitialiser Filtres
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="mt-0">
+
+                <!-- ✅ Gestion du Chargement et des Erreurs -->
+                <div *ngIf="loading" class="text-center">
+                    <i class="bx bx-loader bx-spin"></i> Chargement des factures...
+                </div>
+                <div *ngIf="errorMessage" class="text-center text-danger">
+                    {{ errorMessage }}
+                </div>
+
+                <!-- ✅ Tableau des Factures -->
+                <div class="card-datatable table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#ID</th>
+                                <th>🏥 Pharmacie</th>
+                                <th>🧑‍⚕️ Dermo</th>
+                                <th>📅 Arrivée</th>
+                                <th>📅 Départ</th>
+                                <th>📄 Facture</th>
+                                <th>📝 Commentaire</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let facture of filteredFactures">
+                                <td>#{{facture?.id}}</td>
+                                <td>{{facture?.nomPharmacie}}</td>
+                                <td>{{facture?.nomDermo}}</td>
+                                <td>{{ facture?.dateArrivee | date:'dd/MM/yyyy HH:mm' }}</td>
+                                <td>{{ facture?.dateSortie | date:'dd/MM/yyyy HH:mm' }}</td>
+                                <td>
+                                    <button *ngIf="facture?.path" class="btn btn-success"
+                                        (click)="openFacture(facture?.path)">
+                                        <i class="bx bx-file"></i> Voir Facture
+                                    </button>
+                                    <span *ngIf="!facture?.path" class="badge bg-danger">Pas de facture</span>
+                                </td>
+                                <td>{{facture?.commentaire}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

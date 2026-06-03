@@ -1,0 +1,49 @@
+.layout-menu{
+    height: 100vh;
+}
+.layout-menu {
+    width: 250px;
+    background-color: #fff; /* Assure un fond opaque */
+    transition: width 0.3s ease, background-color 0.3s ease;
+    overflow: hidden; /* Empêche les éléments de dépasser */
+
+    .app-brand {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+    }
+
+    .app-brand-logo img {
+        width: 150px; /* Taille normale */
+        transition: width 0.3s ease;
+    }
+
+    .menu-text {
+        display: inline;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+
+    &.collapsed {
+        text-align: center;
+        width: 65px;
+        background-color: #333; /* Assure un fond uniforme pour le mode réduit */
+
+        .app-brand-logo img {
+            width: 60px; /* Réduit la taille de l'image */
+        }
+
+        .menu-text {
+            opacity: 0; /* Cache le texte */
+        }
+
+        .menu-item {
+            text-align: center;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+        }
+    }
+}

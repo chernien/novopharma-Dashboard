@@ -1,0 +1,87 @@
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme"  [class.collapsed]="isCollapsed">
+    <div class="app-brand demo">
+        <a  class="app-brand-link">
+            <span class="app-brand-logo demo" (click)="toggleSidebar()">
+                <img src="../../../assets/logo-xxl.png" width="200">
+            </span>
+        </a>
+      
+       
+    </div>
+
+    <div class="menu-inner-shadow"></div>
+
+    <ul class="menu-inner py-1">
+        <!-- Dashboard -->
+        <li class="menu-item">
+            <a routerLink="/home" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">Acceuil</div>
+            </a>
+        </li>
+
+        <!-- Layouts -->
+        <li class="menu-item" routerLinkActive="active">
+            <a routerLink="/home/conseiller" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-layout"></i>
+                <div data-i18n="Layouts">Dermo-Conseillèr(e)s</div>
+            </a>
+
+         
+        </li>
+
+        <li class="menu-item" routerLinkActive="active">
+            <a routerLink="/home/suivi" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-map-pin"></i>
+                <div data-i18n="User interface">Suivi Dermo</div>
+            </a>
+        </li>
+        
+
+
+        <!-- User interface -->
+        <li class="menu-item"  routerLinkActive="active">
+            <a routerLink="/home/commandes"  class="menu-link">
+                <i class="menu-icon tf-icons bx bx-box"></i>
+                <div data-i18n="User interface">Les Ventes</div>
+            </a>
+           
+        </li>
+        <li class="menu-item"  routerLinkActive="active">
+            <a routerLink="/home/facture"  class="menu-link">
+                <i class="menu-icon tf-icons bx bx-folder"></i>
+                <div data-i18n="User interface">Les Factures</div>
+            </a>
+           
+        </li>
+        <li class="menu-item"  routerLinkActive="active">
+            <a routerLink="/home/gift"  class="menu-link">
+                <i class="menu-icon tf-icons bx bx-gift"></i>
+                <div data-i18n="User interface">Gestion des Gifts</div>
+            </a>
+           
+        </li>
+        <li class="menu-item"  routerLinkActive="active">
+            <a routerLink="/home/gift-list"  class="menu-link">
+                <i class="menu-icon tf-icons bx bx-gift"></i>
+                <div data-i18n="User interface">Commandes Gifts</div>
+            </a>
+           
+        </li>
+        <li class="menu-item" routerLinkActive="active">
+            <a routerLink="/home/article" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-package"></i>
+                <div data-i18n="User interface">Les Articles</div>
+            </a>
+           
+     
+        <li class="menu-item">
+            <a  class="menu-link">
+                <i class="menu-icon tf-icons bx bx-log-out-circle"></i>
+                <div data-i18n="Tables">Déconnexion</div>
+            </a>
+        </li>
+       
+ 
+    </ul>
+</aside>

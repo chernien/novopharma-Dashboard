@@ -1,0 +1,218 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="card">
+        <h5 class="card-header">🎯 Espace Dermo-Conseillèr(e)  &nbsp;
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUser">+ Nouveau</button>
+        </h5>
+
+        <div class="card-body">
+            <input type="text" [(ngModel)]="searchText" class="form-control" placeholder="🔍 Rechercher un dérmo">
+        </div>
+
+        <div class="card-datatable table-responsive">
+            <table class="table border-top dataTable">
+                <thead>
+                    <tr>
+                        <th>Identifiant</th>
+                        <th>Nom Complet</th>
+                        <th>Nom d'utilisateur</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let conseiller of conseillers">
+                        <td>#{{ conseiller?.id }}</td>
+                        <td>{{ conseiller?.intitule }}</td>
+                        <td>{{ conseiller?.username }}</td>
+                        <td>
+                            <div class="dropdown">
+                              <button class="btn btn-sm dropdown-toggle"
+                                      [ngClass]="conseiller.enabled ? 'btn-success' : 'btn-danger'"
+                                      type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ conseiller.enabled ? 'Autorisé' : 'Bloqué' }}
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item"
+                                    href="#"
+                                    (click)="changeDermoStatus(conseiller, true, $event)">
+                                    Autoriser
+                                 </a>
+                                 
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                    href="#"
+                                    (click)="changeDermoStatus(conseiller, false, $event)">
+                                    bloquer
+                                 </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </td>
+                          
+                        <td>
+                            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#giftModal"
+                                (click)="openGiftModal(conseiller)">
+                                <i class='bx bx-gift'></i> Voir Gifts
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editUser" (click)="getDermoById(conseiller.id)">Modifier</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- 🎁 Modal pour afficher les gifts attribués -->
+<div class="modal fade" id="giftModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">🎁 Gifts de {{ selectedDermo?.intitule }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="loadingGifts" class="text-center">
+                    <span class="spinner-border text-primary"></span> Chargement...
+                </div>
+
+                <div *ngIf="assignedGifts.length === 0 && !loadingGifts" class="text-center">
+                    <p>❌ Aucun gift attribué.</p>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover" *ngIf="assignedGifts.length > 0">
+                        <thead>
+                            <tr>
+                                <th>📸 Image</th>
+                                <th>🎁 Gift</th>
+                                <th>🏷️ Marque</th>
+                                <th>📦 Quantité</th>
+                                <th>📅 Date Attribution</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let gift of assignedGifts">
+                                <td><img src="https://novopharma.tn/api/MbArticle/image/{{gift?.giftRef}}" alt="Gift"
+                                        width="50"></td>
+                                <td>{{ gift.giftName }}</td>
+                                <td>{{ gift.marque }}</td>
+                                <td><span class="badge bg-primary">{{ gift.quantiteAttribuee }}</span></td>
+                                <td>{{ gift.dateAttribution | date:'dd/MM/yyyy HH:mm' }}</td>
+
+
+                                <td>
+                                    <button class="btn btn-danger btn-sm" (click)="deleteGift(gift.id)">
+                                        <i class="bx bx-trash"></i>
+                                    </button>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addUser" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+        <div class="modal-content p-3 p-md-5">
+            <div class="modal-body">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="text-center mb-4">
+                    <h3>Nouveau Dérmo-Conseiller(e) </h3>
+                </div>
+                <form id="addUserForm" class="row g-3 fv-plugins-bootstrap5 fv-plugins-framework" [formGroup]="AddForm">
+                    <div class="col-12 col-md-6 fv-plugins-icon-container">
+                        <label class="form-label" for="modalEditUserFirstName">Nom complet</label>
+                        <input type="text" id="modalEditUserFirstName" formControlName="intitule"
+                            name="modalEditUserFirstName" class="form-control">
+                        <div
+                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 fv-plugins-icon-container">
+                        <label class="form-label" for="modalEditUserLastName">Nom d'utilisateur</label>
+                        <input type="text" id="modalEditUserLastName" name="modalEditUserLastName" class="form-control"
+                            formControlName="username">
+                        <div
+                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                        </div>
+                    </div>
+                    <div class="col-12 fv-plugins-icon-container">
+                        <label class="form-label" for="modalEditUserName">Mot de Passe</label>
+                        <input type="text" id="modalEditUserName" name="modalEditUserName" class="form-control"
+                            formControlName="password">
+                        <div
+                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary me-sm-3 me-1"
+                            (click)="SaveDermo()">Sauvgrader</button>
+                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
+                            aria-label="Close">Annuler</button>
+                    </div>
+                    <input type="hidden">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editUser" tabindex="-1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+        <div class="modal-content p-3 p-md-5">
+            <div class="modal-body">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="text-center mb-4">
+                    <h3>Modifier Dérmo-Conseiller(e) </h3>
+                </div>
+                <form id="editUserForm" class="row g-3 fv-plugins-bootstrap5 fv-plugins-framework"
+                    [formGroup]="EditForm">
+                    <div class="col-12 col-md-6 fv-plugins-icon-container">
+                        <label class="form-label" for="modalEditUserFirstName">Nom complet</label>
+                        <input type="text" id="modalEditUserFirstName" formControlName="intitule"
+                            name="modalEditUserFirstName" class="form-control">
+                        <div
+                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 fv-plugins-icon-container">
+                        <label class="form-label" for="modalEditUserLastName">Nom d'utilisateur</label>
+                        <input type="text" id="modalEditUserLastName" name="modalEditUserLastName" class="form-control"
+                            formControlName="username">
+                        <div
+                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                        </div>
+                    </div>
+                    <div class="col-12 fv-plugins-icon-container">
+                        <label class="form-label" for="modalEditUserName">Mot de Passe</label>
+                        <input type="text" id="modalEditUserName" name="modalEditUserName" class="form-control"
+                            formControlName="password">
+                        <div
+                            class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary me-sm-3 me-1"
+                            (click)="UpadteDermo(conseiller?.id)">Sauvgrader</button>
+                        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
+                            aria-label="Close">Annuler</button>
+                    </div>
+                    <input type="hidden">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

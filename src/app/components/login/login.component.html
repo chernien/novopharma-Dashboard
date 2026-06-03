@@ -1,0 +1,50 @@
+<div class="container-xxl">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+            <!-- Register -->
+            <div class="card">
+                <div class="card-body">
+                    <!-- Logo -->
+                    <div class="app-brand justify-content-center">
+                        <a href="#" class="app-brand-link gap-2">
+                            <span class="app-brand-logo demo">
+                                <img src="../../../assets/logo-xxl.png" alt="">
+                            </span>
+                            <!-- <span class="app-brand-text demo text-body fw-bolder">Sneat</span> -->
+                        </a>
+                    </div>
+                    <!-- /Logo -->
+                    <h4 class="mb-2">Bienvenue ! 👋</h4>
+                    <p class="mb-4"></p>
+
+                    <form id="formAuthentication" class="mb-3" [formGroup]="loginForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Nom d'utilisateur</label>
+                            <input type="text" class="form-control" formControlName="username" id="email"
+                                name="email-username" placeholder="Entrer votre Nom d'utilisateur" autofocus />
+                        </div>
+                        <div class="mb-3 form-password-toggle">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label" for="password">Mot de Passe</label>
+
+                            </div>
+                            <div class="input-group input-group-merge">
+                                <input type="password" id="password" class="form-control" formControlName="password"
+                                    name="password"
+                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                    aria-describedby="password" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <button class="btn btn-primary d-grid w-100" type="submit" (click)="onLogin()">Se
+                                Connecter</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <!-- /Register -->
+        </div>
+    </div>
+</div>
