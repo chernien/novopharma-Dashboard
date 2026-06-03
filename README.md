@@ -238,7 +238,7 @@ Modifiez simplement `apiUrl` — aucune URL n'est codée en dur dans les service
 - **⚡ Programmation réactive** — utilisation de **RxJS / Observables** pour les appels asynchrones.
 - **🎨 UX soignée** — feedback utilisateur cohérent via SweetAlert2, navigation claire, design Sneat professionnel.
 
-> 🔭 **Pistes d'évolution identifiées** (transparence technique) : introduction d'**interfaces/modèles TypeScript** en remplacement des `any`, ajout d'un **intercepteur HTTP** + authentification par **JWT**, mise en place de **tests unitaires** sur les services et composants critiques, et **lazy-loading** des modules.
+
 
 ---
 
